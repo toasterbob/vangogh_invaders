@@ -16,6 +16,11 @@ With this app, users will be able to:
 
 ### Wireframes
 
+The app will be a single screen with a nav bar that has the title and links to
+Github and LinkedIn.  In the game window will be buttons to pause, restart, and start
+the game.  Brief instructions will be on the side.  There are basically 3 keys to move
+and shoot.  
+
 ![wireframes](wireframe.png)
 
 ### Architecture and Technologies

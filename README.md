@@ -27,4 +27,15 @@ and shoot.
 
 ### Implementation Timeline
 
+**Day 1**:
+
+**Day 2**:
+
+**Day 3**:
+
+**Day 4**:
+
 ### Bonus features
+
+- [] Build a few levels, maybe a bonus level where Van Gogh collects ears
+- [] Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  

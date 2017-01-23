@@ -9,10 +9,10 @@ and shoot paint brushes at the invaders.  The invaders will fire ears at him.
 ### Functionality & MVP  
 
 With this app, users will be able to:
-- [] Move Vincent Van Gogh back and forth along the bottom of the screen using arrow keys
-- [] Fire paint brushes at invaders
-- [] Start, pause and reset the game
-- [] The game will keep track of your score
+- [ ] Move Vincent Van Gogh back and forth along the bottom of the screen using arrow keys
+- [ ] Fire paint brushes at invaders
+- [ ] Start, pause and reset the game
+- [ ] The game will keep track of your score
 
 ### Wireframes
 
@@ -37,5 +37,5 @@ and shoot.
 
 ### Bonus features
 
-- [] Build a few levels, maybe a bonus level where Van Gogh collects ears
-- [] Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  
+- [ ] Build a few levels, maybe a bonus level where Van Gogh collects ears
+- [ ] Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  

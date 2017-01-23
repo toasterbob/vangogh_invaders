@@ -25,15 +25,29 @@ and shoot.
 
 ### Architecture and Technologies
 
+This project will be implemented with the following technologies:
+
+- Vanilla JavaScript for overall structure and game logic,
+- `HTML5 Canvas` for DOM manipulation and rendering,
+- Webpack to bundle and serve up the various scripts.
+
+In addition to the webpack entry file, there will be five scripts involved in this project:
+
+`game.js`: The main game file and game logic
+`aliens.js`: Will render the various invading aliens
+`paintbrush.js`: Shooting paintbrushes
+`ear.js`: Shooting ears
+`vangogh.js`: Our hero
+
 ### Implementation Timeline
 
-**Day 1**:
+**Day 1**:  Add the nav bar and layout start the background of the game
 
-**Day 2**:
+**Day 2**: Create the alien objects
 
-**Day 3**:
+**Day 3**: Create the shooting interactions
 
-**Day 4**:
+**Day 4**:  Cleanup and putting it all together 
 
 ### Bonus features
 

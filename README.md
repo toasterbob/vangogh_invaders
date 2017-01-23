@@ -1,1 +1,3 @@
-# Van Gogh Invaders
+## Van Gogh Invaders
+
+### Background

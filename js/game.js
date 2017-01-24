@@ -107,7 +107,7 @@ let update = (modifier) => {
 
 	// Are they touching?
 	if (
-		gogh.x <= (ear.x + 25)
+		gogh.x <= (ear.x + 20)
 		&& ear.x <= (gogh.x + 55)
 		&& gogh.y <= (ear.y + 45)
 		&& ear.y <= (gogh.y + 65)

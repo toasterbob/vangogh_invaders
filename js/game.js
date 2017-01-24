@@ -69,8 +69,8 @@ let reset = () => {
 let update = (modifier) => {
 	if (38 in keysDown) { // Player holding up
 		gogh.y -= gogh.speed * modifier;
-    if (gogh.y < 0 - 5) {
-      gogh.y = 0 - 5;
+    if (gogh.y < 40 - 5) {
+      gogh.y = 40 - 5;
     }
 	}
 	if (40 in keysDown) { // Player holding down
@@ -120,7 +120,7 @@ let update = (modifier) => {
 // Draw everything
 let render = () => {
 	if (backgroundReady) {
-		ctx.drawImage(backgroundImage, 0, 0);
+		ctx.drawImage(backgroundImage, 0, 40);
 	}
 
 	if (goghReady) {
@@ -132,11 +132,11 @@ let render = () => {
 	}
 
 	// Score
-	ctx.fillStyle = "rgb(0, 240, 240)";
-	ctx.font = "24px Arial";
-	ctx.textAlign = "left";
-	ctx.textBaseline = "top";
-	ctx.fillText("Ears found: " + earsCaught, 32, 32);
+	// ctx.fillStyle = "rgb(0, 240, 240)";
+	// ctx.font = "24px Arial";
+	// ctx.textAlign = "left";
+	// ctx.textBaseline = "top";
+	// ctx.fillText("Ears found: " + earsCaught, 32, 32);
 };
 
 // The main game loop

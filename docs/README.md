@@ -36,7 +36,6 @@ In addition to the webpack entry file, there will be five scripts involved in th
 `game.js`: The main game file and game logic
 `aliens.js`: Will render the various invading aliens
 `paintbrush.js`: Shooting paintbrushes
-`ear.js`: Shooting ears
 `vangogh.js`: Our hero
 
 ### Implementation Timeline
@@ -47,9 +46,9 @@ In addition to the webpack entry file, there will be five scripts involved in th
 
 **Day 3**: Create the shooting interactions
 
-**Day 4**:  Cleanup and putting it all together 
+**Day 4**:  Cleanup and putting it all together
 
 ### Bonus features
 
-- [ ] Build a few levels, maybe a bonus level where Van Gogh collects ears
+- [ ] Build a few levels, maybe a bonus level where Van Gogh collects paint brushes 
 - [ ] Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  

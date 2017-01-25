@@ -15,7 +15,7 @@ backgroundImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,
 // backgroundImage.height = "1024";
 // backgroundImage.width = "790";
 // backgroundImage.style.backgroundSize = "100%";
-
+// g
 
 // VanGogh image
 let goghReady = false;

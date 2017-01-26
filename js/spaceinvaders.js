@@ -28,8 +28,8 @@ class Ship  {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.width = 20;
-    this.height = 16;
+    this.width = 62;
+    this.height = 70;
   }
 }
 
@@ -59,11 +59,47 @@ class Invader {
     this.rank = rank;
     this.file = file;
     this.type = type;
-    this.width = 18;
-    this.height = 14;
+    this.width = 40;
+    this.height = 40;
   }
 }
 
+// VanGogh image
+let goghReady = false;
+let goghImage = new Image();
+goghImage.onload = () => {
+	goghReady = true;
+};
+goghImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_62/v1485138973/van_gogh_bust_gpdqxv.png";
+
+// Background image
+let backgroundReady = false;
+let backgroundImage = new Image();
+backgroundImage.onload = () => {
+	backgroundReady = true;
+};
+backgroundImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_800/v1485139498/Starry_Night2_znb8ym.jpg";
+
+let sunflowerReady = false;
+let sunflowerImage = new Image();
+sunflowerImage.onload = () => {
+	sunflowerReady = true;
+};
+sunflowerImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/v1485418344/sunflower_nyzhub.png";
+
+let sunflower2Ready = false;
+let sunflower2Image = new Image();
+sunflower2Image.onload = () => {
+	sunflower2Ready = true;
+};
+sunflower2Image.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_9/v1485418344/sunflower_nyzhub.png";
+
+let paintReady = false;
+let paintImage = new Image();
+paintImage.onload = () => {
+	paintReady = true;
+};
+paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/a_314/c_crop,h_400,w_55/c_scale,w_10/c_scale,w_10/v1485420453/brush_zc5s2v.png";
 
 class Game {
 
@@ -78,8 +114,8 @@ class Game {
       invaderDropDistance: 20,
       rocketVelocity: 120,
       rocketMaxFireRate: 2,
-      gameWidth: 400,
-      gameHeight: 300,
+      gameWidth: 700,
+      gameHeight: 530,
       fps: 50,
       debugMode: false,
       invaderRanks: 5,
@@ -162,7 +198,7 @@ class Game {
       this.config.debugMode = /debug=true/.test(window.location.href);
 
       //  Start the game loop.
-      var game = this;
+      let game = this;
       this.intervalId = setInterval(function () { gameLoop(game);}, 1000 / this.config.fps);
 
   }
@@ -195,14 +231,15 @@ class WelcomeState {
     //  Clear the background.
     ctx.clearRect(0, 0, game.width, game.height);
 
-    ctx.font="30px Arial";
+    ctx.font="50px 'Permanent Marker', cursive";
     ctx.fillStyle = '#ffffff';
     ctx.textBaseline="center";
     ctx.textAlign="center";
-    ctx.fillText("Van Gogh Invaders", game.width / 2, game.height/2 - 40);
-    ctx.font="16px Arial";
+    ctx.fillText("Van Gogh Invaders", game.width / 2, game.height/2 - 50);
+    ctx.font="20px 'Permanent Marker', cursive";
 
     ctx.fillText("Press 'Space' to start.", game.width / 2, game.height/2);
+    ctx.fillText("Use the arrow keys to move and 'Space' to shoot", game.width / 2, game.height/2 + 30);
   };
 
   keyDown (game, keyCode) {
@@ -225,12 +262,12 @@ class LevelIntroState {
       //  Clear the background.
       ctx.clearRect(0, 0, game.width, game.height);
 
-      ctx.font="36px Arial";
+      ctx.font="36px 'Permanent Marker', cursive";
       ctx.fillStyle = '#ffffff';
       ctx.textBaseline="middle";
       ctx.textAlign="center";
       ctx.fillText("Level " + this.level, game.width / 2, game.height/2);
-      ctx.font="24px Arial";
+      ctx.font="24px 'Permanent Marker', cursive";
       ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 36);
     }
 
@@ -316,7 +353,7 @@ class PlayState {
     this.ship = new Ship(game.width / 2, game.gameBounds.bottom);
 
     //  Set the ship speed for this level, as well as invader params.
-    var levelMultiplier = this.level * this.config.levelDifficultyMultiplier;
+    let levelMultiplier = this.level * this.config.levelDifficultyMultiplier;
     this.shipSpeed = this.config.shipSpeed;
     this.invaderInitialVelocity = this.config.invaderInitialVelocity + (levelMultiplier * this.config.invaderInitialVelocity);
     this.bombRate = this.config.bombRate + (levelMultiplier * this.config.bombRate);
@@ -324,14 +361,14 @@ class PlayState {
     this.bombMaxVelocity = this.config.bombMaxVelocity + (levelMultiplier * this.config.bombMaxVelocity);
 
     //  Create the invaders.
-    var ranks = this.config.invaderRanks;
-    var files = this.config.invaderFiles;
-    var invaders = [];
-    for(var rank = 0; rank < ranks; rank++){
-      for(var file = 0; file < files; file++) {
+    let ranks = this.config.invaderRanks;
+    let files = this.config.invaderFiles;
+    let invaders = [];
+    for(let rank = 0; rank < ranks; rank++){
+      for(let file = 0; file < files; file++) {
         invaders.push(new Invader(
-          (game.width / 2) + ((files/2 - file) * 200 / files),
-          (game.gameBounds.top + rank * 20),
+          (game.width / 2) + ((files/2 - file) * 400 / files),
+          (game.gameBounds.top + rank * 40),
           rank, file, 'Invader'));
         }
       }
@@ -366,8 +403,8 @@ class PlayState {
       }
 
       //  Move each bomb.
-      for(var i=0; i<this.bombs.length; i++) {
-        var bomb = this.bombs[i];
+      for(let i=0; i<this.bombs.length; i++) {
+        let bomb = this.bombs[i];
         bomb.y += dt * bomb.velocity;
 
         //  If the bomb has gone off the screen remove it.
@@ -378,7 +415,7 @@ class PlayState {
 
       //  Move each rocket.
       for(i=0; i<this.rockets.length; i++) {
-        var rocket = this.rockets[i];
+        let rocket = this.rockets[i];
         rocket.y -= dt * rocket.velocity;
 
         //  If the rocket has gone off the screen remove it.
@@ -536,37 +573,40 @@ class PlayState {
 
         //  Clear the background.
         ctx.clearRect(0, 0, game.width, game.height);
-
+        ctx.drawImage(backgroundImage, 0, 40);
         //  Draw ship.
-        ctx.fillStyle = '#999999';
-        ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
+        //ctx.fillStyle = '#999999';
+        //ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
+        ctx.drawImage(goghImage, this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2));
 
         //  Draw invaders.
         ctx.fillStyle = '#006600';
         for(var i=0; i<this.invaders.length; i++) {
           var invader = this.invaders[i];
-          ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
+          //ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
+          ctx.drawImage(sunflowerImage, invader.x - invader.width/2, invader.y - invader.height/2);
         }
 
         //  Draw bombs.
         ctx.fillStyle = '#ff5555';
-        for(var i=0; i<this.bombs.length; i++) {
-          var bomb = this.bombs[i];
-          ctx.fillRect(bomb.x - 2, bomb.y - 2, 4, 4);
+        for(let i = 0; i < this.bombs.length; i++) {
+          let bomb = this.bombs[i];
+          ctx.fillRect(bomb.x - 2, bomb.y - 2, 6, 6);
         }
 
         //  Draw rockets.
         ctx.fillStyle = '#ffffff';
-        for(var i=0; i<this.rockets.length; i++) {
-          var rocket = this.rockets[i];
-          ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+        for(let i = 0; i < this.rockets.length; i++) {
+          let rocket = this.rockets[i];
+          // ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
+          ctx.drawImage(paintImage, rocket.x, rocket.y);
         }
 
         //  Draw info.
-        var textYpos = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
-        ctx.font="14px Arial";
+        let textYpos = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
+        ctx.font="20px 'Permanent Marker', cursive"
         ctx.fillStyle = '#ffffff';
-        var info = "Lives: " + game.lives;
+        let info = "Lives: " + game.lives;
         ctx.textAlign = "left";
         ctx.fillText(info, game.gameBounds.left, textYpos);
         info = "Score: " + game.score + ", Level: " + game.level;

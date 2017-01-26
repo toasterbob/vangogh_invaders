@@ -11,8 +11,9 @@ and shoot paint brushes at the invaders.  The invaders will fire ears at him.
 With this app, users will be able to:
 - [ ] Move Vincent Van Gogh back and forth along the bottom of the screen using arrow keys
 - [ ] Fire paint brushes at invaders
-- [ ] The game will have several states.  Welcome page, next level screen, game playing screen, game over screen.  
+- [ ] The game will have several states: welcome page, next level screen, game playing screen, and game over screen.  
 - [ ] The game will keep track of your score
+- [ ] Invaders will move like the traditional space invaders rotating between two images
 
 ### Wireframes
 

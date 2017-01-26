@@ -1,6 +1,6 @@
 
 
-// The main loop.
+// The main game loop.
 const gameLoop = (game) => {
     let currentState = game.currentState();
     if(currentState) {
@@ -8,11 +8,10 @@ const gameLoop = (game) => {
         //  Delta t is the time to update/draw.
         let dt = 1 / game.config.fps;
 
-        //  Get the drawing context.
+        //  the drawing context.
         let ctx = game.gameCanvas.getContext("2d");
 
-        //  Update if we have an update function. Also draw
-        //  if we have a draw function.
+        //  draw or update if they have that function in the class
         if(currentState.update) {
             currentState.update(game, dt);
         }
@@ -24,7 +23,7 @@ const gameLoop = (game) => {
 };
 
 
-class Ship  {
+class VanGogh  {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -34,7 +33,7 @@ class Ship  {
 }
 
 
-class Rocket {
+class Paintbrush {
   constructor(x, y, velocity) {
     this.x = x;
     this.y = y;
@@ -92,7 +91,7 @@ let sunflower2Image = new Image();
 sunflower2Image.onload = () => {
 	sunflower2Ready = true;
 };
-sunflower2Image.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_9/v1485418344/sunflower_nyzhub.png";
+sunflower2Image.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_180/v1485418344/sunflower_nyzhub.png";
 
 let paintReady = false;
 let paintImage = new Image();
@@ -101,28 +100,36 @@ paintImage.onload = () => {
 };
 paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/a_314/c_crop,h_400,w_55/c_scale,w_10/c_scale,w_10/v1485420453/brush_zc5s2v.png";
 
+//sounds
+let explosionSound = new Audio('lib/pop_x.wav');
+let alarmSound = new Audio('lib/klaxon_ahooga.wav');
+let screamSound = new Audio('lib/scream.wav');
+let victorySound = new Audio('lib/laugh_x.wav');
+let invadersWinSound = new Audio('lib/ominous.wav');
+
+
+
 class Game {
 
   constructor() {
 
     this.config = {
-      bombRate: 0.05,
+      bombRate: 0.08,
       bombMinVelocity: 50,
-      bombMaxVelocity: 50,
+      bombMaxVelocity: 100,
       invaderInitialVelocity: 25,
-      invaderAcceleration: 0,
-      invaderDropDistance: 20,
-      rocketVelocity: 120,
-      rocketMaxFireRate: 2,
+      invaderAcceleration: 10,
+      invaderDropDistance: 30,
+      paintbrushVelocity: 230,
+      paintbrushMaxFireRate: 1.5,
       gameWidth: 700,
       gameHeight: 530,
       fps: 50,
-      debugMode: false,
-      invaderRanks: 5,
-      invaderFiles: 10,
-      shipSpeed: 120,
-      levelDifficultyMultiplier: 0.2,
-      pointsPerInvader: 5
+      invaderRanks: 4,
+      invaderFiles: 8,
+      vincentSpeed: 120,
+      levelDifficultyMultiplier: 0.4,
+      pointsPerInvader: 20
     };
 
     // All state is in the variables below.
@@ -140,7 +147,7 @@ class Game {
     this.gameCanvas =  null;
 
   }
-  //  Initialis the Game with a canvas.
+  //  Initialize the Game with a canvas.
   initialize (gameCanvas) {
 
     //  Set the game canvas.
@@ -190,12 +197,8 @@ class Game {
   //  Start the Game.
   start () {
 
-      //  Move into the 'welcome' state.
+      //  Game begins with the Welcome State
       this.moveToState(new WelcomeState());
-
-      //  Set the game variables.
-      this.lives = 3;
-      this.config.debugMode = /debug=true/.test(window.location.href);
 
       //  Start the game loop.
       let game = this;
@@ -268,7 +271,19 @@ class LevelIntroState {
       ctx.textAlign="center";
       ctx.fillText("Level " + this.level, game.width / 2, game.height/2);
       ctx.font="24px 'Permanent Marker', cursive";
-      ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 36);
+      if (this.level > 5) {
+        ctx.fillText("Masterpiece of Defense! ", game.width / 2, game.height/2 + 36);
+        ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 76);
+      } else if (this.level > 3) {
+        ctx.fillText("You're pretty good! ", game.width / 2, game.height/2 + 36);
+        ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 76);
+      } else if (this.level > 1) {
+        ctx.fillText("Not too shabby! ", game.width / 2, game.height/2 + 36);
+        ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 76);
+      } else {
+
+        ctx.fillText("Ready in " + this.countdownMessage, game.width / 2, game.height/2 + 36);
+      }
     }
 
     update (game, dt) {
@@ -287,6 +302,7 @@ class LevelIntroState {
       }
       if(this.countdown <= 0) {
         //  Move to the next level, popping this state.
+        alarmSound.play();
         game.moveToState(new PlayState(game.config, this.level));
       }
     }
@@ -303,15 +319,17 @@ class GameOverState {
     //  Clear the background.
     ctx.clearRect(0, 0, game.width, game.height);
 
-    ctx.font="30px Arial";
+    ctx.font="40px 'Permanent Marker', cursive";
     ctx.fillStyle = '#ffffff';
     ctx.textBaseline="center";
     ctx.textAlign="center";
-    ctx.fillText("Game Over!", game.width / 2, game.height/2 - 40);
-    ctx.font="16px Arial";
-    ctx.fillText("You scored " + game.score + " and got to level " + game.level, game.width / 2, game.height/2);
-    ctx.font="16px Arial";
-    ctx.fillText("Press 'Space' to play again.", game.width / 2, game.height/2 + 40);
+    ctx.fillText("Game OVER Van Gogh", game.width / 2, game.height/2 - 80);
+    ctx.font="30px 'Permanent Marker', cursive";
+    ctx.fillText("Maybe you should stick to painting", game.width / 2, game.height/2 - 40);
+    ctx.font="18px 'Permanent Marker', cursive";
+    ctx.fillText("You earned " + game.score + " points and made it to level " + game.level, game.width / 2, game.height/2);
+    ctx.font="16px 'Permanent Marker', cursive";
+    ctx.fillText("Press 'Space' to try again.", game.width / 2, game.height/2 + 40);
   }
 
   keyDown (game, keyCode) {
@@ -326,7 +344,7 @@ class GameOverState {
 
 }
 
-
+/////////////////////MAIN GAME CLASS////////////////////////////////////////////////////////////////////////////////
 //  Create a PlayState with the game config and the level you are on.
 class PlayState {
   constructor(config, level){
@@ -338,23 +356,25 @@ class PlayState {
     this.invaderCurrentVelocity =  10;
     this.invaderCurrentDropDistance =  0;
     this.invadersAreDropping =  false;
-    this.lastRocketTime = null;
+    this.lastPaintbrushTime = null;
 
     //  Game entities.
-    this.ship = null;
+    this.vincent = null;
     this.invaders = [];
-    this.rockets = [];
+    this.paintbrushes = [];
     this.bombs = [];
+    this.prev = 0;
+    this.switch = true;
   }
 
   enter (game) {
 
-    //  Create the ship.
-    this.ship = new Ship(game.width / 2, game.gameBounds.bottom);
+    //  Create the vincent.
+    this.vincent = new VanGogh(game.width / 2, game.gameBounds.bottom);
 
-    //  Set the ship speed for this level, as well as invader params.
+    //  Set the vincent speed for this level, as well as invader params.
     let levelMultiplier = this.level * this.config.levelDifficultyMultiplier;
-    this.shipSpeed = this.config.shipSpeed;
+    this.vincentSpeed = this.config.vincentSpeed;
     this.invaderInitialVelocity = this.config.invaderInitialVelocity + (levelMultiplier * this.config.invaderInitialVelocity);
     this.bombRate = this.config.bombRate + (levelMultiplier * this.config.bombRate);
     this.bombMinVelocity = this.config.bombMinVelocity + (levelMultiplier * this.config.bombMinVelocity);
@@ -368,7 +388,7 @@ class PlayState {
       for(let file = 0; file < files; file++) {
         invaders.push(new Invader(
           (game.width / 2) + ((files/2 - file) * 400 / files),
-          (game.gameBounds.top + rank * 40),
+          (game.gameBounds.top + 40 + rank * 40),
           rank, file, 'Invader'));
         }
       }
@@ -379,27 +399,36 @@ class PlayState {
     }
 
     update (game, dt) {
+      let now = Date.now();
+      if ((now - this.prev) > 1000) {
+
+        this.switch = this.switch ? false : true;
+
+        this.prev = now;
+      }
+
+
 
       //  If the left or right arrow keys are pressed, move
-      //  the ship. Check this on ticks rather than via a keydown
-      //  event for smooth movement, otherwise the ship would move
+      //  the vincent. Check this on ticks rather than via a keydown
+      //  event for smooth movement, otherwise the vincent would move
       //  more like a text editor caret.
       if(game.pressedKeys[37]) {
-        this.ship.x -= this.shipSpeed * dt;
+        this.vincent.x -= this.vincentSpeed * dt;
       }
       if(game.pressedKeys[39]) {
-        this.ship.x += this.shipSpeed * dt;
+        this.vincent.x += this.vincentSpeed * dt;
       }
       if(game.pressedKeys[32]) {
-        this.fireRocket();
+        this.firePaintbrush();
       }
 
-      //  Keep the ship in bounds.
-      if(this.ship.x < game.gameBounds.left) {
-        this.ship.x = game.gameBounds.left;
+      //  Keep the vincent in bounds.
+      if(this.vincent.x < game.gameBounds.left) {
+        this.vincent.x = game.gameBounds.left;
       }
-      if(this.ship.x > game.gameBounds.right) {
-        this.ship.x = game.gameBounds.right;
+      if(this.vincent.x > game.gameBounds.right) {
+        this.vincent.x = game.gameBounds.right;
       }
 
       //  Move each bomb.
@@ -413,23 +442,23 @@ class PlayState {
         }
       }
 
-      //  Move each rocket.
-      for(i=0; i<this.rockets.length; i++) {
-        let rocket = this.rockets[i];
-        rocket.y -= dt * rocket.velocity;
+      //  Move each paintbrush.
+      for(i=0; i<this.paintbrushes.length; i++) {
+        let paintbrush = this.paintbrushes[i];
+        paintbrush.y -= dt * paintbrush.velocity;
 
-        //  If the rocket has gone off the screen remove it.
-        if(rocket.y < 0) {
-          this.rockets.splice(i--, 1);
+        //  If the paintbrush has gone off the screen remove it.
+        if(paintbrush.y < 0) {
+          this.paintbrushes.splice(i--, 1);
         }
       }
 
       //  Move the invaders.
-      var hitLeft = false, hitRight = false, hitBottom = false;
+      let hitLeft = false, hitRight = false, hitBottom = false;
       for(i=0; i<this.invaders.length; i++) {
-        var invader = this.invaders[i];
-        var newx = invader.x + this.invaderVelocity.x * dt;
-        var newy = invader.y + this.invaderVelocity.y * dt;
+        let invader = this.invaders[i];
+        let newx = invader.x + this.invaderVelocity.x * dt;
+        let newy = invader.y + this.invaderVelocity.y * dt;
         if(hitLeft === false && newx < game.gameBounds.left) {
           hitLeft = true;
         }
@@ -473,33 +502,34 @@ class PlayState {
       if(hitBottom) {
         this.lives = 0;
       }
-      //  Check for rocket/invader collisions.
+      //  Check for paintbrush/invader collisions.
       for(i=0; i<this.invaders.length; i++) {
-        var invader = this.invaders[i];
-        var bang = false;
+        let invader = this.invaders[i];
+        let destroyed = false;
 
-        for(var j=0; j<this.rockets.length; j++){
-          var rocket = this.rockets[j];
+        for(let j=0; j<this.paintbrushes.length; j++){
+          let paintbrush = this.paintbrushes[j];
 
-          if(rocket.x >= (invader.x - invader.width/2) && rocket.x <= (invader.x + invader.width/2) &&
-          rocket.y >= (invader.y - invader.height/2) && rocket.y <= (invader.y + invader.height/2)) {
+          if(paintbrush.x >= (invader.x - invader.width/2) && paintbrush.x <= (invader.x + invader.width/2) &&
+          paintbrush.y >= (invader.y - invader.height/2) && paintbrush.y + 20 <= (invader.y + invader.height/2)) {
 
-            //  Remove the rocket, set 'bang' so we don't process
-            //  this rocket again.
-            this.rockets.splice(j--, 1);
-            bang = true;
+            //  Remove the paintbrush, set 'destroyed' so we don't process
+            //  this paintbrush again.
+            this.paintbrushes.splice(j--, 1);
+            destroyed = true;
             game.score += this.config.pointsPerInvader;
+            explosionSound.play();
             break;
           }
         }
-        if(bang) {
+        if(destroyed) {
           this.invaders.splice(i--, 1);
         }
       }
       //  Find all of the front rank invaders.
-      var frontRankInvaders = {};
-      for(var i=0; i<this.invaders.length; i++) {
-        var invader = this.invaders[i];
+      let frontRankInvaders = {};
+      for(let i=0; i<this.invaders.length; i++) {
+        let invader = this.invaders[i];
         //  If we have no invader for game file, or the invader
         //  for game file is futher behind, set the front
         //  rank invader to game one.
@@ -509,10 +539,10 @@ class PlayState {
       }
 
       //  Give each front rank invader a chance to drop a bomb.
-      for(var i=0; i<this.config.invaderFiles; i++) {
-        var invader = frontRankInvaders[i];
+      for(i=0; i<this.config.invaderFiles; i++) {
+        invader = frontRankInvaders[i];
         if(!invader) continue;
-        var chance = this.bombRate * dt;
+        let chance = this.bombRate * dt;
         if(chance > Math.random()) {
           //  Fire!
           this.bombs.push(new Bomb(invader.x, invader.y + invader.height / 2,
@@ -520,27 +550,28 @@ class PlayState {
           }
         }
 
-        //  Check for bomb/ship collisions.
+        //  Check for bomb/vincent collisions.
         for(var i=0; i<this.bombs.length; i++) {
           var bomb = this.bombs[i];
-          if(bomb.x >= (this.ship.x - this.ship.width/2) && bomb.x <= (this.ship.x + this.ship.width/2) &&
-          bomb.y >= (this.ship.y - this.ship.height/2) && bomb.y <= (this.ship.y + this.ship.height/2)) {
+          if(bomb.x >= (this.vincent.x - this.vincent.width/2) && bomb.x <= (this.vincent.x + this.vincent.width/2) &&
+          bomb.y >= (this.vincent.y - this.vincent.height/2) && bomb.y <= (this.vincent.y + this.vincent.height/2)) {
             this.bombs.splice(i--, 1);
             game.lives--;
+            screamSound.play();
           }
 
         }
 
-        //  Check for invader/ship collisions.
+        //  Check for invader/vincent collisions.
         for(var i=0; i<this.invaders.length; i++) {
           var invader = this.invaders[i];
-          if((invader.x + invader.width/2) > (this.ship.x - this.ship.width/2) &&
-          (invader.x - invader.width/2) < (this.ship.x + this.ship.width/2) &&
-          (invader.y + invader.height/2) > (this.ship.y - this.ship.height/2) &&
-          (invader.y - invader.height/2) < (this.ship.y + this.ship.height/2)) {
-            //  Dead by collision!
+          if((invader.x + invader.width/2) > (this.vincent.x - this.vincent.width/2) &&
+          (invader.x - invader.width/2) < (this.vincent.x + this.vincent.width/2) &&
+          (invader.y + invader.height/2) > (this.vincent.y - this.vincent.height/2) &&
+          (invader.y - invader.height/2) < (this.vincent.y + this.vincent.height/2)) {
+            invadersWinSound.play();
             game.lives = 0;
-            game.sounds.playSound('explosion');
+
           }
         }
 
@@ -553,20 +584,21 @@ class PlayState {
         if(this.invaders.length === 0) {
           game.score += this.level * 50;
           game.level += 1;
+          victorySound.play();
           game.moveToState(new LevelIntroState(game.level));
         }
       }
 
-      fireRocket () {
-        //  If we have no last rocket time, or the last rocket time
-        //  is older than the max rocket rate, we can fire.
-        if(this.lastRocketTime === null || ((new Date()).valueOf() - this.lastRocketTime) > (1000 / this.config.rocketMaxFireRate))
+      firePaintbrush () {
+        //  If we have no last paintbrush time, or the last paintbrush time
+        //  is older than the max paintbrush rate, we can fire.
+        if(this.lastPaintbrushTime === null || ((new Date()).valueOf() - this.lastPaintbrushTime) > (1000 / this.config.paintbrushMaxFireRate))
         {
-          //  Add a rocket.
-          this.rockets.push(new Rocket(this.ship.x, this.ship.y - 12, this.config.rocketVelocity));
-          this.lastRocketTime = (new Date()).valueOf();
+          //  Add a paintbrush.
+          this.paintbrushes.push(new Paintbrush(this.vincent.x, this.vincent.y - 12, this.config.paintbrushVelocity));
+          this.lastPaintbrushTime = (new Date()).valueOf();
         }
-      };
+      }
 
 
       draw (game, dt, ctx) {
@@ -574,37 +606,41 @@ class PlayState {
         //  Clear the background.
         ctx.clearRect(0, 0, game.width, game.height);
         ctx.drawImage(backgroundImage, 0, 40);
-        //  Draw ship.
+        //  Draw vincent.
         //ctx.fillStyle = '#999999';
-        //ctx.fillRect(this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2), this.ship.width, this.ship.height);
-        ctx.drawImage(goghImage, this.ship.x - (this.ship.width / 2), this.ship.y - (this.ship.height / 2));
+        //ctx.fillRect(this.vincent.x - (this.vincent.width / 2), this.vincent.y - (this.vincent.height / 2), this.vincent.width, this.vincent.height);
+        ctx.drawImage(goghImage, this.vincent.x - (this.vincent.width / 2), this.vincent.y - (this.vincent.height / 2));
 
         //  Draw invaders.
         ctx.fillStyle = '#006600';
         for(var i=0; i<this.invaders.length; i++) {
           var invader = this.invaders[i];
           //ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
-          ctx.drawImage(sunflowerImage, invader.x - invader.width/2, invader.y - invader.height/2);
+          if (this.switch) {
+            ctx.drawImage(sunflowerImage, invader.x - invader.width/2, invader.y - invader.height/2);
+          } else {
+            ctx.drawImage(sunflower2Image, invader.x - invader.width/2, invader.y - invader.height/2);
+          }
         }
 
         //  Draw bombs.
         ctx.fillStyle = '#ff5555';
-        for(let i = 0; i < this.bombs.length; i++) {
+        for(i = 0; i < this.bombs.length; i++) {
           let bomb = this.bombs[i];
-          ctx.fillRect(bomb.x - 2, bomb.y - 2, 6, 6);
+          ctx.fillRect(bomb.x - 2, bomb.y - 2, 8, 8);
         }
 
-        //  Draw rockets.
+        //  Draw paintbrushes.
         ctx.fillStyle = '#ffffff';
-        for(let i = 0; i < this.rockets.length; i++) {
-          let rocket = this.rockets[i];
-          // ctx.fillRect(rocket.x, rocket.y - 2, 1, 4);
-          ctx.drawImage(paintImage, rocket.x, rocket.y);
+        for(i = 0; i < this.paintbrushes.length; i++) {
+          let paintbrush = this.paintbrushes[i];
+          // ctx.fillRect(paintbrush.x, paintbrush.y - 2, 1, 4);
+          ctx.drawImage(paintImage, paintbrush.x, paintbrush.y);
         }
 
-        //  Draw info.
+        //  Bottom of the screen game information.
         let textYpos = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
-        ctx.font="20px 'Permanent Marker', cursive"
+        ctx.font="20px 'Permanent Marker', cursive";
         ctx.fillStyle = '#ffffff';
         let info = "Lives: " + game.lives;
         ctx.textAlign = "left";
@@ -613,6 +649,6 @@ class PlayState {
         ctx.textAlign = "right";
         ctx.fillText(info, game.gameBounds.right, textYpos);
 
-      };
+      }
 
 }

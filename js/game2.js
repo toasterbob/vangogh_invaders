@@ -5,12 +5,6 @@ canvas.width = 1000;
 canvas.height = 792;
 document.body.appendChild(canvas);
 
-const game = () => {
-	this.invaders = [];
-	this.invader_row = 5;
-	this.invader_col = 10;
-};
-
 // Background image
 let backgroundReady = false;
 let backgroundImage = new Image();
@@ -18,10 +12,6 @@ backgroundImage.onload = () => {
 	backgroundReady = true;
 };
 backgroundImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_1000/v1485139498/Starry_Night2_znb8ym.jpg";
-// backgroundImage.height = "1024";
-// backgroundImage.width = "790";
-// backgroundImage.style.backgroundSize = "100%";
-// g
 
 // VanGogh image
 let goghReady = false;
@@ -163,15 +153,6 @@ let main = () => {
 	requestAnimationFrame(main);
 };
 
-let invader = (x, y, column, row, type) => {
-    this.x = x;
-    this.y = y;
-    this.column = column;
-    this.row = row;
-    this.type = type;
-    this.width = 18;
-    this.height = 14;
-};
 
 // Cross-browser support for requestAnimationFrame
 let w = window;
@@ -180,5 +161,4 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 // Let's play this game!
 let then = Date.now();
 reset();
-setup();
 main();

@@ -24,8 +24,15 @@ Van Gogh.
 
 ## Code
 
-Stars twinkle by choosing colors at random whenever they re-render:
+Stars twinkle by choosing colors at random every time they re-render:
 
+![code1](code1.png)
+
+Sunflowers alternate between two images (space invader style) through a boolean that checks Date.now.  
+
+![code2](code2.png)
+
+![code3](code3.png)
 
 
 ### Architecture and Technologies

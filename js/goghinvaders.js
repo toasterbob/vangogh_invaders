@@ -113,7 +113,7 @@ class Background {
   }
 }
 
-//sounds - seem to work better when called here rather than in a class 
+//sounds - seem to work better when called here rather than in a class
 let explosionSound = new Audio('lib/pop_x.wav');
 let alarmSound = new Audio('lib/klaxon_ahooga.wav');
 let screamSound = new Audio('lib/scream.wav');
@@ -633,7 +633,6 @@ class PlayState {
         let invader;
         for(let i = 0; i < this.invaders.length; i++) {
           invader = this.invaders[i];
-          //ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
           if (this.switch) {
             ctx.drawImage(invader.sunflowerImage, invader.x - invader.width/2, invader.y - invader.height/2);
           } else {
@@ -657,15 +656,15 @@ class PlayState {
         }
 
         //  Bottom of the screen game information.
-        let textYpos = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
+        let text_position = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
         ctx.font="20px 'Permanent Marker', cursive";
         ctx.fillStyle = '#ffffff';
         let info = "Lives: " + game.lives;
         ctx.textAlign = "left";
-        ctx.fillText(info, game.gameBounds.left, textYpos);
+        ctx.fillText(info, game.gameBounds.left, text_position);
         info = "Score: " + game.score + ", Level: " + game.level;
         ctx.textAlign = "right";
-        ctx.fillText(info, game.gameBounds.right, textYpos);
+        ctx.fillText(info, game.gameBounds.right, text_position);
 
       }
 

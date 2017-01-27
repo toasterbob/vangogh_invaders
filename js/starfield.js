@@ -91,7 +91,8 @@ class Starfield {
 		ctx.fillRect(0, 0, this.width, this.height);
 
 		//	Differnt colors for twinkling stars
-		var colors = ['#ffffff', "#b0ac31", "#cbc53d", "#fad779", "#f9e4ad", "#faf2db", "#563512", "#9b4a0b", "#d36600", "#fe8a00", "#f9a71f"];
+		var colors = ['#ffffff', "#b0ac31", "#cbc53d", "#fad779", "#f9e4ad",
+		"#faf2db", "#563512", "#9b4a0b", "#d36600", "#fe8a00", "#f9a71f"];
 
 		for(var i=0; i<this.stars.length;i++) {
 			ctx.fillStyle = colors[Math.random() * colors.length | 0]; //color changes constantly 

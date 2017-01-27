@@ -29,7 +29,14 @@ class VanGogh  {
     this.y = y;
     this.width = 62;
     this.height = 70;
+    this.goghImage = new Image();
+    this.goghReady = false;
+    this.goghImage.onload = () => {
+    	this.goghReady = true;
+    };
+    this.goghImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_62/v1485138973/van_gogh_bust_gpdqxv.png";
   }
+
 }
 
 
@@ -38,6 +45,14 @@ class Paintbrush {
     this.x = x;
     this.y = y;
     this.velocity = velocity;
+
+    this.paintReady = false;
+    this.paintImage = new Image();
+    this.paintImage.onload = () => {
+    	this.paintReady = true;
+    };
+    this.paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/a_314/c_crop,h_400,w_55/c_scale,w_10/c_scale,w_10/v1485420453/brush_zc5s2v.png";
+
   }
 }
 
@@ -60,47 +75,45 @@ class Invader {
     this.type = type;
     this.width = 40;
     this.height = 40;
+
+    this.sunflowerReady = false;
+    this.sunflowerImage = new Image();
+    this.sunflowerImage.onload = () => {
+    	this.sunflowerReady = true;
+    };
+    this.sunflowerImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/v1485418344/sunflower_nyzhub.png";
+
+    this.sunflower2Ready = false;
+    this.sunflower2Image = new Image();
+    this.sunflower2Image.onload = () => {
+    	this.sunflower2Ready = true;
+    };
+    this.sunflower2Image.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_180/v1485418344/sunflower_nyzhub.png";
   }
 }
 
-// VanGogh image
-let goghReady = false;
-let goghImage = new Image();
-goghImage.onload = () => {
-	goghReady = true;
-};
-goghImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_62/v1485138973/van_gogh_bust_gpdqxv.png";
+class Sounds {
+  constructor(){
+    this.explosionSound = new Audio('lib/pop_x.wav');
+    this.alarmSound = new Audio('lib/klaxon_ahooga.wav');
+    this.screamSound = new Audio('lib/scream.wav');
+    this.victorySound = new Audio('lib/laugh_x.wav');
+    this.invadersWinSound = new Audio('lib/ominous.wav');
+  }
+}
 
-// Background image
-let backgroundReady = false;
-let backgroundImage = new Image();
-backgroundImage.onload = () => {
-	backgroundReady = true;
-};
-backgroundImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_800/v1485139498/Starry_Night2_znb8ym.jpg";
+class Background {
+  constructor(){
+    this.backgroundReady = false;
+    this.backgroundImage = new Image();
+    this.backgroundImage.onload = () => {
+    	this.backgroundReady = true;
+    };
+    this.backgroundImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_800/v1485139498/Starry_Night2_znb8ym.jpg";
+  }
+}
 
-let sunflowerReady = false;
-let sunflowerImage = new Image();
-sunflowerImage.onload = () => {
-	sunflowerReady = true;
-};
-sunflowerImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/v1485418344/sunflower_nyzhub.png";
-
-let sunflower2Ready = false;
-let sunflower2Image = new Image();
-sunflower2Image.onload = () => {
-	sunflower2Ready = true;
-};
-sunflower2Image.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_180/v1485418344/sunflower_nyzhub.png";
-
-let paintReady = false;
-let paintImage = new Image();
-paintImage.onload = () => {
-	paintReady = true;
-};
-paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/a_314/c_crop,h_400,w_55/c_scale,w_10/c_scale,w_10/v1485420453/brush_zc5s2v.png";
-
-//sounds
+//sounds - seem to work better when called here rather than in a class
 let explosionSound = new Audio('lib/pop_x.wav');
 let alarmSound = new Audio('lib/klaxon_ahooga.wav');
 let screamSound = new Audio('lib/scream.wav');
@@ -399,6 +412,7 @@ class PlayState {
     }
 
     update (game, dt) {
+      //toggle every second -used for invader image
       let now = Date.now();
       if ((now - this.prev) > 1000) {
 
@@ -407,7 +421,7 @@ class PlayState {
         this.prev = now;
       }
 
-
+      // this.sound = new Sounds();
 
       //  If the left or right arrow keys are pressed, move
       //  the vincent. Check this on ticks rather than via a keydown
@@ -443,7 +457,7 @@ class PlayState {
       }
 
       //  Move each paintbrush.
-      for(i=0; i<this.paintbrushes.length; i++) {
+      for(let i=0; i<this.paintbrushes.length; i++) {
         let paintbrush = this.paintbrushes[i];
         paintbrush.y -= dt * paintbrush.velocity;
 
@@ -455,7 +469,7 @@ class PlayState {
 
       //  Move the invaders.
       let hitLeft = false, hitRight = false, hitBottom = false;
-      for(i=0; i<this.invaders.length; i++) {
+      for(let i=0; i<this.invaders.length; i++) {
         let invader = this.invaders[i];
         let newx = invader.x + this.invaderVelocity.x * dt;
         let newy = invader.y + this.invaderVelocity.y * dt;
@@ -503,7 +517,8 @@ class PlayState {
         this.lives = 0;
       }
       //  Check for paintbrush/invader collisions.
-      for(i=0; i<this.invaders.length; i++) {
+      // let sound = this.sound;
+      for(let i=0; i<this.invaders.length; i++) {
         let invader = this.invaders[i];
         let destroyed = false;
 
@@ -539,8 +554,8 @@ class PlayState {
       }
 
       //  Give each front rank invader a chance to drop a bomb.
-      for(i=0; i<this.config.invaderFiles; i++) {
-        invader = frontRankInvaders[i];
+      for(let i=0; i<this.config.invaderFiles; i++) {
+        let invader = frontRankInvaders[i];
         if(!invader) continue;
         let chance = this.bombRate * dt;
         if(chance > Math.random()) {
@@ -551,8 +566,8 @@ class PlayState {
         }
 
         //  Check for bomb/vincent collisions.
-        for(var i=0; i<this.bombs.length; i++) {
-          var bomb = this.bombs[i];
+        for(let i=0; i<this.bombs.length; i++) {
+          let bomb = this.bombs[i];
           if(bomb.x >= (this.vincent.x - this.vincent.width/2) && bomb.x <= (this.vincent.x + this.vincent.width/2) &&
           bomb.y >= (this.vincent.y - this.vincent.height/2) && bomb.y <= (this.vincent.y + this.vincent.height/2)) {
             this.bombs.splice(i--, 1);
@@ -563,8 +578,9 @@ class PlayState {
         }
 
         //  Check for invader/vincent collisions.
-        for(var i=0; i<this.invaders.length; i++) {
-          var invader = this.invaders[i];
+
+        for(let i = 0; i < this.invaders.length; i++) {
+          let invader = this.invaders[i];
           if((invader.x + invader.width/2) > (this.vincent.x - this.vincent.width/2) &&
           (invader.x - invader.width/2) < (this.vincent.x + this.vincent.width/2) &&
           (invader.y + invader.height/2) > (this.vincent.y - this.vincent.height/2) &&
@@ -605,49 +621,50 @@ class PlayState {
 
         //  Clear the background.
         ctx.clearRect(0, 0, game.width, game.height);
-        ctx.drawImage(backgroundImage, 0, 40);
+        this.background = new Background();
+        ctx.drawImage(this.background.backgroundImage, 0, 40);
         //  Draw vincent.
         //ctx.fillStyle = '#999999';
         //ctx.fillRect(this.vincent.x - (this.vincent.width / 2), this.vincent.y - (this.vincent.height / 2), this.vincent.width, this.vincent.height);
-        ctx.drawImage(goghImage, this.vincent.x - (this.vincent.width / 2), this.vincent.y - (this.vincent.height / 2));
+        ctx.drawImage(this.vincent.goghImage, this.vincent.x - (this.vincent.width / 2), this.vincent.y - (this.vincent.height / 2));
 
         //  Draw invaders.
         ctx.fillStyle = '#006600';
-        for(var i=0; i<this.invaders.length; i++) {
-          var invader = this.invaders[i];
-          //ctx.fillRect(invader.x - invader.width/2, invader.y - invader.height/2, invader.width, invader.height);
+        let invader;
+        for(let i = 0; i < this.invaders.length; i++) {
+          invader = this.invaders[i];
           if (this.switch) {
-            ctx.drawImage(sunflowerImage, invader.x - invader.width/2, invader.y - invader.height/2);
+            ctx.drawImage(invader.sunflowerImage, invader.x - invader.width/2, invader.y - invader.height/2);
           } else {
-            ctx.drawImage(sunflower2Image, invader.x - invader.width/2, invader.y - invader.height/2);
+            ctx.drawImage(invader.sunflower2Image, invader.x - invader.width/2, invader.y - invader.height/2);
           }
         }
 
         //  Draw bombs.
         ctx.fillStyle = '#ff5555';
-        for(i = 0; i < this.bombs.length; i++) {
+        for(let i = 0; i < this.bombs.length; i++) {
           let bomb = this.bombs[i];
           ctx.fillRect(bomb.x - 2, bomb.y - 2, 8, 8);
         }
 
         //  Draw paintbrushes.
         ctx.fillStyle = '#ffffff';
-        for(i = 0; i < this.paintbrushes.length; i++) {
+        for(let i = 0; i < this.paintbrushes.length; i++) {
           let paintbrush = this.paintbrushes[i];
           // ctx.fillRect(paintbrush.x, paintbrush.y - 2, 1, 4);
-          ctx.drawImage(paintImage, paintbrush.x, paintbrush.y);
+          ctx.drawImage(paintbrush.paintImage, paintbrush.x, paintbrush.y);
         }
 
         //  Bottom of the screen game information.
-        let textYpos = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
+        let text_position = game.gameBounds.bottom + ((game.height - game.gameBounds.bottom) / 2) + 14/2;
         ctx.font="20px 'Permanent Marker', cursive";
         ctx.fillStyle = '#ffffff';
         let info = "Lives: " + game.lives;
         ctx.textAlign = "left";
-        ctx.fillText(info, game.gameBounds.left, textYpos);
+        ctx.fillText(info, game.gameBounds.left, text_position);
         info = "Score: " + game.score + ", Level: " + game.level;
         ctx.textAlign = "right";
-        ctx.fillText(info, game.gameBounds.right, textYpos);
+        ctx.fillText(info, game.gameBounds.right, text_position);
 
       }
 

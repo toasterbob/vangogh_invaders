@@ -29,14 +29,9 @@ This project will be implemented with the following technologies:
 
 - Vanilla JavaScript for overall structure and game logic,
 - `HTML5 Canvas` for DOM manipulation and rendering,
-- Webpack to bundle and serve up the various scripts.
+- setInterval for animation
 
-In addition to the webpack entry file, there will be five scripts involved in this project:
 
-`game.js`: The main game file and game logic
-`aliens.js`: Will render the various invading aliens
-`paintbrush.js`: Shooting paintbrushes
-`vangogh.js`: Our hero
 
 ### Implementation Timeline
 

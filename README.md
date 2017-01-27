@@ -17,6 +17,8 @@ navigate through the various states, generally waiting for a space bar click.
 Although in the game state, it is left when lives equal zero or the aliens touch
 Van Gogh.  
 
+![start](start.png)
+
 
 ## Code
 

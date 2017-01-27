@@ -62,6 +62,14 @@ class Bomb {
     this.x = x;
     this.y = y;
     this.velocity = velocity;
+
+    this.paintReady = false;
+    this.paintImage = new Image();
+    this.paintImage.onload = () => {
+      this.paintReady = true;
+    };
+    this.paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_10/v1485419875/paint_xc8mpl.png";
+
   }
 }
 
@@ -188,13 +196,6 @@ class Game {
 
     //  Are we already in a state?
     if(this.currentState()) {
-
-      //  Before we pop the current state, see if the
-      //  state has a leave function. If it does we can call it.
-      if(this.currentState().leave) {
-        this.currentState().leave(game);
-      }
-
       this.stateStack.pop();
     }
 
@@ -644,7 +645,8 @@ class PlayState {
         ctx.fillStyle = '#ff5555';
         for(let i = 0; i < this.bombs.length; i++) {
           let bomb = this.bombs[i];
-          ctx.fillRect(bomb.x - 2, bomb.y - 2, 8, 8);
+          ctx.fillRect(bomb.x - 4, bomb.y - 4, 8, 8);
+          //ctx.drawImage(bomb.paintImage, bomb.x - 5, bomb.y - 5);
         }
 
         //  Draw paintbrushes.

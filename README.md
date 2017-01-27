@@ -5,7 +5,7 @@ Van Gogh Invaders is Space Invaders meets Vincent Van Gogh.
 Evil sunflowers are invading the earth and it is up to Van Gogh to save the day.  
 He utilizes his trusty paint brushes to take out the aliens, while dodging their bombs.  
 
-The game is set against the background of his Starry Night.  
+The game is set against the background of his painting, Starry Night.  
 
 Use the arrow keys to navigate and the space bar to shoot.  Avoid the bombs, take out the invaders.  
 

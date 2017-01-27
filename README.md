@@ -7,6 +7,8 @@ He utilizes his trusty paint brushes to take out the aliens, while dodging their
 
 The game is set against the background of his Starry Night.  
 
+Use the arrow keys to navigate and the space bar to shoot.  Avoid the bombs, take out the invaders.  
+
 ![game](game.png)
 
 ### State  

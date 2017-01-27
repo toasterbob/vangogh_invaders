@@ -28,34 +28,22 @@ Stars twinkle by choosing colors at random every time they re-render:
 
 ![code1](code1.png)
 
-Sunflowers alternate between two images (space invader style) through a boolean that checks Date.now.  
+Sunflowers alternate between two images (space invader style) through a boolean that checks Date.now.
+I set this up because switching images in the render would be too quick of a timeframe.   
 
 ![code2](code2.png)
 
 ![code3](code3.png)
 
 
-### Architecture and Technologies
+### Technology
 
-This project will be implemented with the following technologies:
-
-- Vanilla JavaScript for overall structure and game logic,
-- `HTML5 Canvas` for DOM manipulation and rendering,
-- setInterval for animation
+- Vanilla JavaScript is used for overall structure and game logic.
+- `HTML5 Canvas` is used for DOM manipulation and rendering.
+- setInterval is used for the animation.
 
 
-
-### Implementation Timeline
-
-**Day 1**:  Add the nav bar and layout start the background of the game
-
-**Day 2**: Create the alien objects
-
-**Day 3**: Create the shooting interactions
-
-**Day 4**:  Cleanup and putting it all together
-
-### Bonus features
+### Future implementation
 
 - [ ] Build a few levels, maybe a bonus level where Van Gogh collects paint brushes
 - [ ] Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  

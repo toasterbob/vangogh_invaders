@@ -9,7 +9,7 @@ The game is set against the background of his Starry Night.
 
 Use the arrow keys to navigate and the space bar to shoot.  Avoid the bombs, take out the invaders.  
 
-![game](game.png)
+![game](assets/game.png)
 
 ### State  
 
@@ -45,5 +45,5 @@ I set this up because switching images in the render would be too quick of a tim
 
 ### Future implementation
 
-- [ ] Build a few levels, maybe a bonus level where Van Gogh collects paint brushes
-- [ ] Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  
+- Build a few levels, maybe a bonus level where Van Gogh collects paint brushes
+- Possibly create a few algorithm visualizations that mimic the starry night skies to add into the game.  

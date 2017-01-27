@@ -19,21 +19,21 @@ navigate through the various states, generally waiting for a space bar click.
 Although in the game state, it is left when lives equal zero or the aliens touch
 Van Gogh.  
 
-![start](start.png)
+![start](assets/start.png)
 
 
 ## Code
 
 Stars twinkle by choosing colors at random every time they re-render:
 
-![code1](code1.png)
+![code1](assets/code1.png)
 
 Sunflowers alternate between two images (space invader style) through a boolean that checks Date.now.
 I set this up because switching images in the render would be too quick of a timeframe.   
 
-![code2](code2.png)
+![code2](assets/code2.png)
 
-![code3](code3.png)
+![code3](assets/code3.png)
 
 
 ### Technology

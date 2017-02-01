@@ -51,7 +51,7 @@ class Paintbrush {
     this.paintImage.onload = () => {
     	this.paintReady = true;
     };
-    this.paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/a_314/c_crop,h_400,w_55/c_scale,w_10/c_scale,w_10/v1485420453/brush_zc5s2v.png";
+    this.paintImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/a_314/c_crop,h_400,w_55/c_scale,w_10/c_scale,w_10/v1485420453/brush_zc5s2v.png";
 
   }
 }

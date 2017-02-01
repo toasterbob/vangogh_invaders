@@ -19,10 +19,10 @@ Use the arrow keys to navigate and the space bar to shoot.  Avoid the bombs, tak
 
 ### State  
 
-The game employees for different states.  The initial background state,
+The game employees four different states.  The initial background state,
 a level screen, a game state, and the game over state.  Event listeners help
 navigate through the various states, generally waiting for a space bar click.  
-Although in the game state, it is left when lives equal zero or the aliens touch
+However, in the game state, you exit state when lives equal zero or the aliens touch
 Van Gogh.  
 
 ![start](assets/start.png)

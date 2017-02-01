@@ -68,7 +68,7 @@ class Bomb {
     this.paintImage.onload = () => {
       this.paintReady = true;
     };
-    this.paintImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_10/v1485419875/paint_xc8mpl.png";
+    this.paintImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_10/v1485969993/bomb_pink_iwhmpz.png";
 
   }
 }
@@ -645,8 +645,8 @@ class PlayState {
         ctx.fillStyle = '#ff5555';
         for(let i = 0; i < this.bombs.length; i++) {
           let bomb = this.bombs[i];
-          ctx.fillRect(bomb.x - 4, bomb.y - 4, 8, 8);
-          //ctx.drawImage(bomb.paintImage, bomb.x - 5, bomb.y - 5);
+          // ctx.fillRect(bomb.x - 4, bomb.y - 4, 8, 8);
+          ctx.drawImage(bomb.paintImage, bomb.x - 5, bomb.y - 5);
         }
 
         //  Draw paintbrushes.

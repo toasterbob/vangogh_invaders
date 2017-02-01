@@ -34,7 +34,7 @@ class VanGogh  {
     this.goghImage.onload = () => {
     	this.goghReady = true;
     };
-    this.goghImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_62/v1485138973/van_gogh_bust_gpdqxv.png";
+    this.goghImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_62/v1485138973/van_gogh_bust_gpdqxv.png";
   }
 
 }
@@ -68,7 +68,7 @@ class Bomb {
     this.paintImage.onload = () => {
       this.paintReady = true;
     };
-    this.paintImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_10/v1485419875/paint_xc8mpl.png";
+    this.paintImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_10/v1485419875/paint_xc8mpl.png";
 
   }
 }
@@ -89,14 +89,14 @@ class Invader {
     this.sunflowerImage.onload = () => {
     	this.sunflowerReady = true;
     };
-    this.sunflowerImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/v1485418344/sunflower_nyzhub.png";
+    this.sunflowerImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/v1485418344/sunflower_nyzhub.png";
 
     this.sunflower2Ready = false;
     this.sunflower2Image = new Image();
     this.sunflower2Image.onload = () => {
     	this.sunflower2Ready = true;
     };
-    this.sunflower2Image.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_180/v1485418344/sunflower_nyzhub.png";
+    this.sunflower2Image.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_40/a_180/v1485418344/sunflower_nyzhub.png";
   }
 }
 
@@ -117,7 +117,7 @@ class Background {
     this.backgroundImage.onload = () => {
     	this.backgroundReady = true;
     };
-    this.backgroundImage.src = "http://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_800/v1485139498/Starry_Night2_znb8ym.jpg";
+    this.backgroundImage.src = "https://res.cloudinary.com/dseky3p5e/image/upload/c_scale,w_800/v1485139498/Starry_Night2_znb8ym.jpg";
   }
 }
 
